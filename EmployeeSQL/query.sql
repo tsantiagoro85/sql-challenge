@@ -18,20 +18,20 @@ ON dm.emp_no = e.emp_no
 JOIN departments d
 ON dm.dept_no = d.dept_no
 
--- department of each employee (emp number, last name, first name, dept name)
-SELECT e.emp_no, e.last_name, e.first_name, d.dept_name
+--List the department number for each employee along with that employee’s employee number, last name, first name, and department name.
+SELECT d.dept_no, e.emp_no, e.last_name, e.first_name, d.dept_name
 FROM employees e
 JOIN dept_emp de 
 ON e.emp_no = de.emp_no
 JOIN departments d
 ON d.dept_no = de.dept_no
 
--- first name, last name, and sex for employees named "Hercules B."
+-- List first name, last name, and sex of each employee whose first name is Hercules and whose last name begins with the letter B.
 SELECT first_name, last_name, sex
 FROM employees 
 WHERE first_name = 'Hercules' AND last_name LIKE 'B%'
 
--- employees in Sales department (emp no, last name, first name, dept name)
+--List each employee in the Sales department, including their employee number, last name, and first name.
 SELECT e.emp_no, e.last_name, e.first_name, d.dept_name
 FROM employees e
 JOIN dept_emp de 
@@ -40,7 +40,7 @@ JOIN departments d
 ON d.dept_no = de.dept_no
 WHERE d.dept_name = 'Sales';
 
--- employees in Sales and Development departments (emp no, last name, first name, dept name)
+--List each employee in the Sales and Development departments, including their employee number, last name, first name, and department name.
 SELECT e.emp_no, e.last_name, e.first_name, d.dept_name
 FROM employees e
 JOIN dept_emp de 
@@ -49,18 +49,8 @@ JOIN departments d
 ON d.dept_no = de.dept_no
 WHERE d.dept_name = 'Sales' OR d.dept_name = 'Development'
 
--- frequency count of employee last names
+-- List the frequency counts, in descending order, of all the employee last names (that is, how many employees share each last name).
 SELECT last_name, count(emp_no) as num_employees_with_same_last_name
 FROM employees
 GROUP BY last_name
 ORDER BY num_employees_with_same_last_name DESC;
-
--- create view for bonus bar chard of avg salary by title
-CREATE VIEW avg_salaries_by_title AS
-SELECT round(avg(s.salary)) as avg_salary, t.title
-FROM titles t
-JOIN employees e
-ON t.title_id = e.emp_title_id
-JOIN salaries s
-ON e.emp_no = s.emp_no
-GROUP BY t.title;
